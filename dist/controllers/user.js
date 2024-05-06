@@ -73,12 +73,20 @@ const updatetUser = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.updatetUser = updatetUser;
-const deleteUser = (req, res) => {
+const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
+    const user = yield user_1.default.findByPk(id);
+    if (!user) {
+        return res.status(404).json({
+            msg: 'No  existe un usuario con el id' + id
+        });
+    }
+    yield user.update({ estado: 0 });
+    // Eliminacion fisica
+    // await user.destroy()
     res.json({
-        msg: 'DeleteUser',
-        id
+        msg: 'User deleted!',
     });
-};
+});
 exports.deleteUser = deleteUser;
 //# sourceMappingURL=user.js.map
